@@ -5,7 +5,8 @@ require_once 'add.php';
 require_once 'show.php';
 require_once 'delete.php';
 require_once 'update.php';
-
+require_once 'excel.php';
+require_once  'pdf.php';
 //выбрать действие и вызвать нужную функцию
 switch ($_REQUEST['act'])
 {
@@ -27,6 +28,14 @@ switch ($_REQUEST['act'])
     case 'show':
         $show = new Show();
         $show->show();
+        break;
+    case 'excel':
+        $excel = new Excel();
+        $excel->showExcel();
+        break;
+    case 'pdf':
+        $pdf = new Pdf();
+        $pdf->showPdf();
         break;
     default:
         echo 'Не существует данной функции';
