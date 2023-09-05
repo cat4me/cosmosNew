@@ -9,7 +9,7 @@ class Pdf
         $query = new DB();
         $query->beginTransaction();
         try {
-            $sql = "SELECT * FROM objects";
+            $sql = file_get_contents(__DIR__ . '/sql/SelectObjects.sql');
             $params = [];
             $result = $query->query($sql, $params);
             //

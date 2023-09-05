@@ -10,7 +10,7 @@ class Add
         $query = new DB();
         $query->beginTransaction();
         try {
-            $sql = "INSERT INTO objects (parent_id, name, type) VALUES (?, ?, ?)";
+            $sql = file_get_contents(__DIR__ . '/sql/AddObject.sql');
             var_dump($parentId, $name, $type);
             $params = [[$parentId, 'int'], [$name, 'string'], [$type, 'string']];
             $query->query($sql, $params);
@@ -33,7 +33,7 @@ class Add
         $query = new DB();
         $query->beginTransaction();
         try {
-            $sql = "SELECT * FROM objects";
+            $sql = file_get_contents(__DIR__ . '/sql/SelectObjects.sql');
             $params = [];
             $query->query($sql, $params);
             $query->commit();

@@ -1,0 +1,1 @@
+UPDATE objects SET parent_id = ?, name = ?, type = ? WHERE id = ?

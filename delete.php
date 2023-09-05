@@ -11,25 +11,17 @@ class Delete
         $query = new DB();
         $query->beginTransaction();
         try {
-            $sql = "WITH RECURSIVE descendants AS
-                    (
-                    SELECT id
-                    FROM objects
-                    WHERE id = ?
-                    UNION ALL
-                    SELECT t.id
-                    FROM descendants d, objects t
-                    WHERE t.parent_id=d.id
-                    )
-                    SELECT * FROM descendants;";
+            # рекурсивное выделение id ВСЕХ потомков
+            $sql = file_get_contents(__DIR__ . '/sql/RecursiveDelete.sql');
             $params = [[$id, 'int']];
             $query->query($sql, $params);
             $query->commit();
             $arr = $query->query($sql, $params);
+            # удаление id потомков, которые были сохранены в arr
             foreach ($arr as $value) {
                 $query->beginTransaction();
                 $params = [[$value['id'], 'string']];
-                $sql = "DELETE FROM objects WHERE id = ?";
+                $sql = file_get_contents(__DIR__ . '/sql/delete.sql');
                 $query->query($sql, $params);
                 $query->commit();
             }
@@ -52,7 +44,7 @@ class Delete
         $query = new DB();
         $query->beginTransaction();
         try {
-            $sql = "SELECT * FROM objects WHERE id = ?";
+            $sql = file_get_contents(__DIR__ . '/sql/SelectObjectsWhereid.sql');
             $params = [[$id, 'int']];
             $query->query($sql, $params);
             $query->commit();

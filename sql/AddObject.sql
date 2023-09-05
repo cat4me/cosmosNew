@@ -1,0 +1,1 @@
+INSERT INTO objects (parent_id, name, type) VALUES (?, ?, ?)
